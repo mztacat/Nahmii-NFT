@@ -1,0 +1,24 @@
+﻿// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract MztacatCommunity is ERC721 {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
+
+    constructor() ERC721("MztacatCommunity", "MZT") {}
+
+    function mint(address to) public returns (uint256) {
+        _tokenIdCounter.increment();
+        uint256 newTokenId = _tokenIdCounter.current();
+        _mint(to, newTokenId);
+        return newTokenId;
+    }
+
+    function transfer(address to, uint256 tokenId) public {
+        safeTransferFrom(msg.sender, to, tokenId, "");
+    }
+}
+
